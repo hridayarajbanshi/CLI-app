@@ -57,7 +57,11 @@ async function main() {
   await askQuestion(question9.question, question9.answerArray, question9.correctAnswerIndex);
   await askQuestion(question10.question, question10.answerArray, question10.correctAnswerIndex);
   spinner.succeed('Quiz completed!');
+  const url = "https://static3.depositphotos.com/1007162/256/i/950/depositphotos_2564880-stock-photo-throwing-shit.jpg";
   console.log(chalk.bgBlueBright.gray.bold('Total correct answers:', total));
+  if(total === 10){
+    console.log(`${chalk.bgGreenBright.black.bold(" Congratulations! You got all the answers correct' Click on this link for prize:")} ${url}`);
+  }
 
   p.outro(chalk.bgRed.white.bold('Goodbye!'));
 }
