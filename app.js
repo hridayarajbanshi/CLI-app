@@ -1,46 +1,65 @@
 import * as p from '@clack/prompts';
 import chalk from 'chalk';
-import {intro, outro} from '@clack/prompts';
+import ora from 'ora';
+
 let total = 0;
-async function askQuestion(question, answerArray, correctAnswerIndex){
+
+async function askQuestion(question, answerArray, correctAnswerIndex) {
   const options = [];
-  
-  answerArray.forEach((answer)=> {
-    options.push({value:answer, lable: answer});
+
+  answerArray.forEach((answer) => {
+    options.push({ value: answer, label: answer }); // Fix the typo here (lable to label)
   });
+
   const answer = await p.select({
     message: question,
     initialValue: '1',
     options: options,
-  })
-  if(answer=== answerArray[correctAnswerIndex]){
+  });
+
+  if (answer === answerArray[correctAnswerIndex]) {
     total++;
   }
-
+  // spinner.succeed('Question loaded');
 }
-class Question{
-  constructor(question, answerArray, correctAnswerIndex){
+
+class Question {
+  constructor(question, answerArray, correctAnswerIndex) {
     this.question = question;
-    this.answer = answerArray;
+    this.answerArray = answerArray; // Fix: Change 'answer' to 'answerArray'
     this.correctAnswerIndex = correctAnswerIndex;
   }
-
 }
-async function main(){ 
+
+async function main() {
   p.intro(chalk.bgGreen.white.bold('Welcome to the app'));
-  const quesiton1 = new Question('What is the capital of Nepal?', ['Kathmandu', 'Pokhara', 'Mustang'], 0);
-  const quesiton2 = new Question('What is the capital of India?', ['Mumbai', 'New Delhi', 'Mustang'], 1);
-  const quesiton3 = new Question('What is the capital of USA?', ['Washington DC', 'New York', 'Las Vegas'], 0);
-  const quesiton4 = new Question('What is the capital of China?', ['Shanghai', 'Beijing', 'Hong Kong'], 1);
-  const quesiton5 = new Question('What is the capital of Japan?', ['Tokyo', 'Kyoto', 'Osaka'], 0);
-  const quesiton6 = new Question('What is the capital of Australia?', ['Sydney', 'Melbourne', 'Canberra'], 2);
-  const quesiton7 = new Question('What is the capital of Brazil?', ['Rio De Janeiro', 'Sao Paulo', 'Brasilia'], 2);
-  const quesiton8 = new Question('What is the capital of Canada?', ['Toronto', 'Vancouver', 'Ottawa'], 2);
-  const quesiton9 = new Question('What is the capital of France?', ['Paris', 'Marseille', 'Lyon'], 0);
-  const quesiton10 = new Question('What is the capital of Germany?', ['Berlin', 'Munich', 'Hamburg'], 0);
-  const quesiton11 = new Question('What is the capital of Italy?', ['Rome', 'Milan', 'Naples'], 0);
-p.outro(chalk.bgRed.white.bold('Goodbye!'));
 
+  const question1 = new Question('What is the capital of Nepal?', ['Kathmandu', 'Pokhara', 'Mustang'], 0);
+  const question2 = new Question('What is the capital of India?', ['Mumbai', 'New Delhi', 'Mustang'], 1);
+  const question3 = new Question('What is the capital of USA?', ['Washington D.C.', 'New York', 'Los Angeles'], 0);
+  const question4 = new Question('What is the capital of Australia?', ['Sydney', 'Canberra', 'Melbourne'], 1);
+  const question5 = new Question('What is the capital of Japan?', ['Kyoto', 'Osaka', 'Tokyo'], 2);
+  const question6 = new Question('What is the capital of China?', ['Shanghai', 'Beijing', 'Hong Kong'], 1);
+  const question7 = new Question('What is the capital of South Korea?', ['Seoul', 'Busan', 'Incheon'], 0);
+  const question8 = new Question('What is the capital of France?', ['Marseille', 'Paris', 'Lyon'], 1);
+  const question9 = new Question('What is the capital of Germany?', ['Berlin', 'Hamburg', 'Munich'], 0);
+  const question10 = new Question('What is the capital of Italy?', ['Rome', 'Milan', 'Naples'], 0);
+  const spinner = ora('Loading questions').start();
+  // Call askQuestion for each question
+  await askQuestion(question1.question, question1.answerArray, question1.correctAnswerIndex);
+  await askQuestion(question2.question, question2.answerArray, question2.correctAnswerIndex);
+  await askQuestion(question3.question, question3.answerArray, question3.correctAnswerIndex);
+  await askQuestion(question4.question, question4.answerArray, question4.correctAnswerIndex);
+  await askQuestion(question5.question, question5.answerArray, question5.correctAnswerIndex);
+  await askQuestion(question6.question, question6.answerArray, question6.correctAnswerIndex);
+  await askQuestion(question7.question, question7.answerArray, question7.correctAnswerIndex);
+  await askQuestion(question8.question, question8.answerArray, question8.correctAnswerIndex);
+  await askQuestion(question9.question, question9.answerArray, question9.correctAnswerIndex);
+  await askQuestion(question10.question, question10.answerArray, question10.correctAnswerIndex);
+  spinner.succeed('Quiz completed!');
+  console.log(chalk.bgBlueBright.gray.bold('Total correct answers:', total));
+
+  p.outro(chalk.bgRed.white.bold('Goodbye!'));
 }
+
 main();
-askQuestion();
